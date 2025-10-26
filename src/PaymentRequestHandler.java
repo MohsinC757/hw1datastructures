@@ -53,12 +53,9 @@ public class PaymentRequestHandler {
     public boolean submitRequest(int account, double value) {
 
         processAllRequests();
-
         if (accounts[account] < 0) {
-            return false;  // reject
+            return false;
         }
-
-        // queue request
         requestAccount[requestCount] = account;
         requestValue[requestCount] = value;
         requestCount++;
@@ -72,14 +69,13 @@ public class PaymentRequestHandler {
         Duration elapsed = Duration.between(latestTime, now);
 
 
-        int canProcess =  (int)  (elapsed.toMillis() / 1000.0 * processRate);
+        int canProcess =  (int)(elapsed.toMillis() / 1000.0 * processRate);
         if (canProcess > 0) {
              processRequests(canProcess);
             latestTime = now;
         }
     }
       private void processRequests(int count){
-        /*using selection sort*/
         for(int i =0;i<requestCount;i++){
             int max = i;
             for(int j = i+1; j<requestCount;j++){
